@@ -1,0 +1,3860 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMA PORTFOLIO | Ánh - Kinh Tế Quốc Tế FTU</title>
+
+    <!-- Google Fonts: Font Tiếng Việt Thông Thoáng & Font Điện Ảnh Hoàng Gia & Font Prata -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Prata&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* ==========================================================================
+           CINEMA PORTFOLIO - LUXURY VERTICAL SCROLL EXPERIENCE
+           Chủ đề: Màn chiếu phim rạp nhung đỏ & Không gian chữ thoáng đãng
+           ========================================================================== */
+        :root {
+            --bg-cinema: #09090d;
+            --bg-screen: #0f0f16;
+            --bg-card: rgba(22, 21, 32, 0.75);
+            --bg-card-hover: rgba(34, 32, 48, 0.9);
+
+            /* Tone Đỏ nhung điện ảnh (Velvet Crimson) */
+            --velvet-dark: #2a0207;
+            --velvet-mid: #5c0412;
+            --velvet-red: #8b0000;
+            --velvet-bright: #b91c1c;
+            --velvet-glow: rgba(185, 28, 28, 0.35);
+
+            /* Vàng kim hoàng gia (Cinema Gold) */
+            --gold-primary: #f59e0b;
+            --gold-light: #fef08a;
+            --gold-bright: #ffd700;
+            --gold-gradient: linear-gradient(135deg, #ffe066 0%, #f59e0b 50%, #b45309 100%);
+
+            /* Text & Spacing Tokens */
+            --text-primary: #f8fafc;
+            --text-secondary: #a0aec0;
+            --text-muted: #718096;
+            --border-cinema: rgba(245, 158, 11, 0.22);
+            --border-card: rgba(255, 255, 255, 0.08);
+
+            /* Fonts */
+            --font-cinema: 'Cinzel', serif;
+            --font-heading: 'Prata', serif;
+            --font-body: 'Be Vietnam Pro', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+
+            --curtain-speed: 3.6s;
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-cinema);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+        }
+
+        body.cinema-body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            background-color: var(--bg-cinema);
+            line-height: 1.85;
+            /* Giãn cách dòng chữ thoáng hơn */
+            letter-spacing: 0.3px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050508;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4a040d;
+            border-radius: 6px;
+            border: 1px solid var(--gold-primary);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8b0000;
+        }
+
+        .gold-gradient {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .gold-text {
+            color: var(--gold-light) !important;
+        }
+
+        /* ==========================================================================
+           1. HỆ THỐNG RÈM SÂN KHẤU (VELVET CURTAINS & SPOTLIGHT)
+           ========================================================================== */
+        .curtain-stage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10020;
+            pointer-events: none;
+            overflow: hidden;
+            transition: opacity 0.8s ease;
+        }
+
+        .curtain-stage.closed {
+            pointer-events: all;
+            z-index: 10020;
+        }
+
+        .curtain-stage.open {
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .curtain-valance {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: linear-gradient(180deg, #2b0207 0%, #680515 60%, #4a030e 100%);
+            border-bottom: 4px solid var(--gold-primary);
+            z-index: 10005;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+            transition: transform var(--curtain-speed) cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+
+        .valance-fringe {
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 12px;
+            background-image: repeating-linear-gradient(90deg, #d97706, #ffd700 8px, #b45309 16px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .curtain-stage.open .curtain-valance {
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
+
+        .spotlight-top {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            height: 80vh;
+            background: radial-gradient(ellipse at top, rgba(254, 240, 138, 0.22) 0%, rgba(217, 119, 6, 0.08) 45%, transparent 75%);
+            z-index: 10001;
+            pointer-events: none;
+        }
+
+        .curtain-panel {
+            position: absolute;
+            top: 0;
+            width: 51vw;
+            height: 100vh;
+            z-index: 10000;
+            transition: transform var(--curtain-speed) cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+        }
+
+        .curtain-left {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .curtain-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .curtain-stage.open .curtain-left {
+            transform: translateX(-105%) scaleX(0.7);
+        }
+
+        .curtain-stage.open .curtain-right {
+            transform: translateX(105%) scaleX(0.7);
+        }
+
+        .curtain-fabric {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            background: #44030c;
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.85);
+        }
+
+        .fold {
+            flex: 1;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    rgba(12, 1, 3, 0.96) 0%,
+                    rgba(105, 2, 23, 0.9) 25%,
+                    rgba(185, 28, 28, 0.95) 50%,
+                    rgba(85, 2, 17, 0.9) 75%,
+                    rgba(8, 0, 2, 0.98) 100%);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .curtain-rope {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 120px;
+            background: linear-gradient(180deg, #d97706, #ffd700, #b45309);
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            z-index: 10002;
+        }
+
+        .rope-left {
+            right: 15px;
+        }
+
+        .rope-right {
+            left: 15px;
+        }
+
+        .tassel {
+            position: absolute;
+            bottom: -35px;
+            width: 25px;
+            height: 45px;
+            background: linear-gradient(180deg, #ffd700, #b45309);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* GIAO DIỆN TRƯỚC KHI MỞ MÀN: VÉ VIP (CĂN CHÍNH GIỮA TÍNH TỪ ĐƯỜNG KẺ VÀNG XUỐNG DƯỚI) */
+        .curtain-overlay-content {
+            position: absolute;
+            top: calc(50% + 32px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10025;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 92%;
+            max-width: 780px;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .curtain-stage.open .curtain-overlay-content {
+            opacity: 0;
+            transform: translate(-50%, -60%) scale(0.9);
+            pointer-events: none;
+        }
+
+        .cinema-badge {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-family: var(--font-cinema);
+            letter-spacing: 3.5px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 9px 28px;
+            border-radius: 9999px;
+            margin-bottom: 36px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            animation: badgeGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes badgeGlow {
+            0% {
+                box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+                border-color: rgba(245, 158, 11, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 4px 25px rgba(245, 158, 11, 0.65);
+                border-color: #ffd700;
+            }
+        }
+
+        .vip-ticket {
+            display: flex;
+            background: linear-gradient(135deg, #1b1922 0%, #100f16 100%);
+            border: 2px solid var(--gold-primary);
+            border-radius: 18px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(245, 158, 11, 0.3);
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 36px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+            animation: ticketFloat 4.5s ease-in-out infinite alternate;
+        }
+
+        .vip-ticket::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.12), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.8s ease;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .vip-ticket:hover::before {
+            left: 150%;
+        }
+
+        @keyframes ticketFloat {
+            0% {
+                transform: translateY(0);
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(245, 158, 11, 0.25);
+            }
+
+            100% {
+                transform: translateY(-4px);
+                box-shadow: 0 30px 75px rgba(0, 0, 0, 0.98), 0 0 50px rgba(245, 158, 11, 0.38);
+            }
+        }
+
+        .vip-ticket:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.98), 0 0 60px rgba(245, 158, 11, 0.5);
+        }
+
+        .ticket-left {
+            flex: 3;
+            padding: 24px 30px;
+            text-align: left;
+        }
+
+        .ticket-cinema-brand {
+            font-family: var(--font-cinema);
+            color: var(--gold-primary);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .ticket-movie-title {
+            font-family: var(--font-cinema);
+            font-size: 1.95rem;
+            color: #ffffff;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+
+        .ticket-tagline {
+            color: var(--gold-light);
+            font-size: 0.98rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .ticket-meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 16px;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .meta-label {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+        }
+
+        .meta-val {
+            font-size: 0.95rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .ticket-divider {
+            position: relative;
+            width: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .notch {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: #44030c;
+            border-radius: 50%;
+            border: 2px solid var(--gold-primary);
+            z-index: 2;
+        }
+
+        .top-notch {
+            top: -13px;
+        }
+
+        .bottom-notch {
+            bottom: -13px;
+        }
+
+        .dashed-line {
+            height: 80%;
+            width: 1px;
+            border-left: 2px dashed rgba(245, 158, 11, 0.5);
+        }
+
+        .ticket-right {
+            flex: 1.3;
+            background: rgba(8, 8, 14, 0.85);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border-left: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .stub-header {
+            font-family: var(--font-cinema);
+            font-size: 1.05rem;
+            color: var(--gold-light);
+            letter-spacing: 2.5px;
+            font-weight: 800;
+            text-align: center;
+            text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+            margin-bottom: 2px;
+        }
+
+        .mock-qr {
+            width: 88px;
+            height: 88px;
+            background: var(--gold-gradient);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a0206;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45), 0 0 15px rgba(255, 215, 0, 0.35);
+            transition: transform 0.3s ease;
+        }
+
+        .vip-ticket:hover .mock-qr {
+            transform: scale(1.05) rotate(3deg);
+        }
+
+        .clapper-icon {
+            width: 48px;
+            height: 48px;
+            stroke-width: 2.2;
+        }
+
+        .seat-info {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            letter-spacing: 1.5px;
+            text-align: center;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .seat-info strong {
+            color: var(--gold-bright);
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+            display: inline-block;
+            margin-left: 4px;
+        }
+
+        .btn-open-curtain {
+            position: relative;
+            padding: 19px 52px;
+            background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 50%, #450a0a 100%);
+            border: 2px solid var(--gold-primary);
+            border-radius: 50px;
+            color: #ffffff;
+            font-family: var(--font-cinema);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(185, 28, 28, 0.65), 0 0 25px rgba(245, 158, 11, 0.45);
+            transition: all 0.3s ease;
+        }
+
+        .btn-open-curtain:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 16px 45px rgba(185, 28, 28, 0.95), 0 0 40px rgba(245, 158, 11, 0.85);
+            border-color: #ffd700;
+        }
+
+        .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .curtain-hint {
+            margin-top: 14px;
+            font-size: 0.92rem;
+            color: var(--gold-light);
+            opacity: 0.85;
+        }
+
+        /* ĐẾM NGƯỢC 3 - 2 - 1 */
+        .cinema-countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 260px;
+            height: 260px;
+            z-index: 10030;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .countdown-circle {
+            width: 200px;
+            height: 200px;
+            border: 4px solid var(--gold-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.6);
+            animation: rotateCrosshair 0.75s linear infinite;
+            position: relative;
+            background: rgba(8, 8, 12, 0.88);
+            transform-origin: center center;
+        }
+
+        .countdown-number {
+            font-family: var(--font-cinema);
+            font-size: 6.2rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 25px var(--gold-bright), 0 0 40px rgba(245, 158, 11, 0.8);
+            transform-origin: center center;
+            display: inline-block;
+        }
+
+        .countdown-number.pop-anim {
+            animation: countdownPop 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes countdownPop {
+            0% {
+                transform: scale(0.65);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .countdown-line {
+            position: absolute;
+            background: rgba(245, 158, 11, 0.5);
+        }
+
+        .line-h {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            left: 0;
+        }
+
+        .line-v {
+            height: 100%;
+            width: 2px;
+            left: 50%;
+            top: 0;
+        }
+
+        @keyframes rotateCrosshair {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* MÀN HÌNH BẾ MẠC & DANH ĐỀ THE END */
+        .the-end-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10008;
+            background: radial-gradient(circle at center, rgba(35, 2, 9, 0.96) 0%, rgba(5, 5, 8, 0.98) 100%);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .the-end-screen.show {
+            display: flex;
+            animation: fadeInEnd 1.2s ease forwards;
+        }
+
+        @keyframes fadeInEnd {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .the-end-text {
+            font-family: var(--font-cinema);
+            font-size: 4.8rem;
+            font-weight: 900;
+            letter-spacing: 8px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 35px rgba(245, 158, 11, 0.4);
+            margin-bottom: 8px;
+        }
+
+        .end-subtext {
+            font-family: var(--font-body);
+            color: var(--gold-light);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-bottom: 28px;
+        }
+
+        .credits-roll {
+            max-height: 220px;
+            overflow-y: hidden;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            margin-bottom: 32px;
+            border-top: 1px solid rgba(245, 158, 11, 0.2);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 16px 0;
+        }
+
+        .credit-block {
+            margin-bottom: 24px;
+            animation: scrollCredits 14s linear infinite;
+        }
+
+        .credit-block h3 {
+            font-family: var(--font-cinema);
+            font-size: 0.82rem;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .credit-block p {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        @keyframes scrollCredits {
+            0% {
+                transform: translateY(100%);
+            }
+
+            100% {
+                transform: translateY(-130%);
+            }
+        }
+
+        .end-actions {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-replay,
+        .btn-open-again {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-family: var(--font-cinema);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-replay {
+            background: var(--gold-gradient);
+            border: none;
+            color: #1a0206;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-replay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.7);
+        }
+
+        .btn-open-again {
+            background: transparent;
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .btn-open-again:hover {
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        /* ==========================================================================
+           2. TIA CHIẾU MÁY QUAY & KHÔNG GIAN ĐIỆN ẢNH
+           ========================================================================== */
+        .projector-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .projector-beam {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            height: 100vh;
+            background: linear-gradient(180deg,
+                    rgba(253, 230, 138, 0.08) 0%,
+                    rgba(245, 158, 11, 0.03) 40%,
+                    transparent 80%);
+            clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+            animation: beamFlicker 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes beamFlicker {
+
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+
+            30% {
+                opacity: 0.9;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+
+            70% {
+                opacity: 0.85;
+            }
+        }
+
+        /* SÂN KHẤU PHÍA DƯỚI - CINEMA STAGE FLOOR */
+        .cinema-stage-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 26vh;
+            /* Hạ xuống từ 38vh -> 26vh */
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Sàn gỗ sân khấu với hiệu ứng phối cảnh */
+        .stage-floor-planks {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(90deg,
+                    transparent 0px,
+                    transparent 68px,
+                    rgba(245, 158, 11, 0.05) 68px,
+                    rgba(245, 158, 11, 0.05) 70px),
+                linear-gradient(0deg,
+                    rgba(42, 2, 7, 0.92) 0%,
+                    rgba(28, 6, 12, 0.72) 45%,
+                    rgba(15, 3, 8, 0.25) 85%,
+                    transparent 100%);
+            clip-path: polygon(22% 0%, 78% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Đường viền sân khấu - apron edge */
+        .stage-apron-edge {
+            position: absolute;
+            bottom: 26vh;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(245, 158, 11, 0.1) 8%,
+                    rgba(245, 158, 11, 0.5) 28%,
+                    rgba(255, 215, 0, 0.85) 50%,
+                    rgba(245, 158, 11, 0.5) 72%,
+                    rgba(245, 158, 11, 0.1) 92%,
+                    transparent 100%);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.45), 0 0 40px rgba(245, 158, 11, 0.18);
+            animation: apronGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes apronGlow {
+            0% {
+                opacity: 0.7;
+                box-shadow: 0 0 18px rgba(245, 158, 11, 0.4), 0 0 40px rgba(245, 158, 11, 0.15);
+            }
+
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 28px rgba(245, 158, 11, 0.65), 0 0 60px rgba(245, 158, 11, 0.3);
+            }
+        }
+
+        /* Đèn footlights nhỏ phát sáng lên từ cạnh sân khấu */
+        .stage-footlights {
+            position: absolute;
+            bottom: 26vh;
+            left: 0;
+            width: 100%;
+            height: 65px;
+            background: linear-gradient(180deg,
+                    transparent 0%,
+                    rgba(245, 158, 11, 0.03) 55%,
+                    rgba(245, 158, 11, 0.10) 100%);
+            pointer-events: none;
+        }
+
+        /* Bóng đổ đỏ nhị ở dưới cùng */
+        .stage-vignette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 26vh;
+            background: radial-gradient(ellipse 80% 60% at 50% 100%,
+                    rgba(180, 28, 28, 0.14) 0%,
+                    rgba(139, 0, 0, 0.06) 45%,
+                    transparent 80%);
+        }
+
+        /* ========================================================
+           THẢM NHŨNG SÂN KHẤU (VELVET STAGE CARPET)
+           Hiệu ứng vải nhung mềm mại, đổ xuống như rèm
+           ======================================================== */
+        /* ========================================================
+           THẢM NHUNG SÂN KHẤU (VELVET STAGE DRAPE)
+           Phủ toàn bộ sân khấu, hiệu ứng sóng như rèm
+           ======================================================== */
+        .stage-carpet-wrap {
+            position: absolute;
+            bottom: 0;
+            /* Bắt đầu từ đáy màn hình */
+            left: 0;
+            width: 100%;
+            height: 26vh;
+            /* Khớp với chiều cao sân khấu */
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        /* Lớp vải nhung chính – phủ toàn sân khấu */
+        .stage-carpet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradient từ trong suốt trên xuống đỏ nhung đậm dưới */
+            background: linear-gradient(180deg,
+                    transparent 0%,
+                    rgba(60, 2, 12, 0.0) 5%,
+                    rgba(80, 2, 15, 0.18) 20%,
+                    rgba(110, 2, 20, 0.52) 45%,
+                    rgba(135, 0, 24, 0.78) 70%,
+                    rgba(120, 0, 20, 0.88) 88%,
+                    rgba(100, 0, 16, 0.94) 100%);
+            overflow: hidden;
+        }
+
+        /* Nếp sóng vải – pseudo-element tạo hiệu ứng rèm gợn sóng */
+        .stage-carpet::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            /* Sọc dọc tạo nếp gấp vải nhung */
+            background: repeating-linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.00) 0px,
+                    rgba(255, 255, 255, 0.00) 22px,
+                    rgba(255, 255, 255, 0.055) 22px,
+                    rgba(255, 255, 255, 0.055) 26px,
+                    rgba(0, 0, 0, 0.12) 26px,
+                    rgba(0, 0, 0, 0.12) 30px,
+                    rgba(255, 255, 255, 0.00) 30px,
+                    rgba(255, 255, 255, 0.00) 52px,
+                    rgba(255, 255, 255, 0.04) 52px,
+                    rgba(255, 255, 255, 0.04) 55px,
+                    rgba(0, 0, 0, 0.08) 55px,
+                    rgba(0, 0, 0, 0.08) 58px);
+            /* Animation: sóng chạy ngang – hiệu ứng rèm gợn gió */
+            animation: drapeWave 6s ease-in-out infinite alternate;
+        }
+
+        /* Hiệu ứng sóng thứ 2 – lớp phủ ripple mờ */
+        .stage-carpet::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 120%;
+            height: 100%;
+            /* Sóng ngang – dải sáng tối nhẹ cuộn qua */
+            background: repeating-linear-gradient(90deg,
+                    rgba(185, 28, 28, 0.00) 0%,
+                    rgba(185, 28, 28, 0.06) 8%,
+                    rgba(255, 255, 255, 0.03) 12%,
+                    rgba(185, 28, 28, 0.00) 20%,
+                    rgba(185, 28, 28, 0.04) 28%,
+                    rgba(255, 255, 255, 0.025) 33%,
+                    rgba(185, 28, 28, 0.00) 42%,
+                    rgba(185, 28, 28, 0.05) 50%,
+                    rgba(255, 255, 255, 0.035) 55%,
+                    rgba(185, 28, 28, 0.00) 64%,
+                    rgba(185, 28, 28, 0.04) 72%,
+                    rgba(255, 255, 255, 0.02) 76%,
+                    rgba(185, 28, 28, 0.00) 84%,
+                    rgba(185, 28, 28, 0.05) 92%,
+                    rgba(185, 28, 28, 0.00) 100%);
+            animation: drapeRipple 9s ease-in-out infinite alternate;
+        }
+
+        /* Đường chỉ vàng viền trên của thảm */
+        .stage-carpet-top-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(245, 158, 11, 0.12) 6%,
+                    rgba(245, 158, 11, 0.55) 25%,
+                    rgba(255, 215, 0, 0.95) 50%,
+                    rgba(245, 158, 11, 0.55) 75%,
+                    rgba(245, 158, 11, 0.12) 94%,
+                    transparent 100%);
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.5), 0 0 32px rgba(245, 158, 11, 0.2);
+            animation: carpetShimmer 4.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes carpetShimmer {
+            0% {
+                opacity: 0.65;
+                box-shadow: 0 0 10px rgba(245, 158, 11, 0.4), 0 0 24px rgba(245, 158, 11, 0.15);
+            }
+
+            100% {
+                opacity: 1.00;
+                box-shadow: 0 0 22px rgba(245, 158, 11, 0.7), 0 0 48px rgba(245, 158, 11, 0.3);
+            }
+        }
+
+        /* Animation nếp gấp – sóng dọc cuộn nhẹ */
+        @keyframes drapeWave {
+            0% {
+                background-position-x: 0px;
+                opacity: 0.85;
+            }
+
+            30% {
+                background-position-x: 12px;
+                opacity: 0.95;
+            }
+
+            60% {
+                background-position-x: -8px;
+                opacity: 0.90;
+            }
+
+            100% {
+                background-position-x: 18px;
+                opacity: 1.00;
+            }
+        }
+
+        /* Animation gợn sóng phụ – trượt ngang */
+        @keyframes drapeRipple {
+            0% {
+                transform: translateX(0%);
+                opacity: 0.7;
+            }
+
+            40% {
+                transform: translateX(3%);
+                opacity: 1.0;
+            }
+
+            70% {
+                transform: translateX(-2%);
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: translateX(5%);
+                opacity: 0.9;
+            }
+        }
+
+        /* Tua rúa phía dưới của thảm */
+        .stage-carpet-fringe {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 18px;
+            background: repeating-linear-gradient(90deg,
+                    rgba(110, 2, 20, 0.95) 0px,
+                    rgba(110, 2, 20, 0.95) 8px,
+                    rgba(245, 158, 11, 0.75) 8px,
+                    rgba(245, 158, 11, 0.75) 9px,
+                    rgba(110, 2, 20, 0.95) 9px,
+                    rgba(110, 2, 20, 0.95) 16px,
+                    rgba(60, 1, 12, 0.5) 16px,
+                    rgba(60, 1, 12, 0.5) 18px);
+            clip-path: polygon(0% 0%, 100% 0%,
+                    100% 55%, 98% 100%, 96% 50%, 94% 100%,
+                    92% 50%, 90% 100%, 88% 50%, 86% 100%,
+                    84% 50%, 82% 100%, 80% 50%, 78% 100%,
+                    76% 50%, 74% 100%, 72% 50%, 70% 100%,
+                    68% 50%, 66% 100%, 64% 50%, 62% 100%,
+                    60% 50%, 58% 100%, 56% 50%, 54% 100%,
+                    52% 50%, 50% 100%, 48% 50%, 46% 100%,
+                    44% 50%, 42% 100%, 40% 50%, 38% 100%,
+                    36% 50%, 34% 100%, 32% 50%, 30% 100%,
+                    28% 50%, 26% 100%, 24% 50%, 22% 100%,
+                    20% 50%, 18% 100%, 16% 50%, 14% 100%,
+                    12% 50%, 10% 100%, 8% 50%, 6% 100%,
+                    4% 50%, 2% 100%, 0% 55%);
+            animation: fringeWave 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes fringeWave {
+            0% {
+                transform: scaleY(1.00);
+                filter: brightness(0.88);
+            }
+
+            40% {
+                transform: scaleY(1.08);
+                filter: brightness(1.05);
+            }
+
+            70% {
+                transform: scaleY(0.95);
+                filter: brightness(0.96);
+            }
+
+            100% {
+                transform: scaleY(1.04);
+                filter: brightness(1.00);
+            }
+        }
+
+        .dust-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* ==========================================================================
+           3. THANH ĐIỀU HƯỚNG CỐ ĐỊNH (CINEMA HEADER)
+           ========================================================================== */
+        .cinema-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10010;
+            pointer-events: none;
+            transition: transform 0.4s ease;
+        }
+
+        /* ẨN PHẦN BORDER ĐẦU MỤC (MỤC 1, 2...) VÀ NÚT ĐÓNG RÈM Ở TRANG ĐẦU TIÊN (TRƯỚC KHI MỞ RÈM) */
+        .curtain-stage.closed~.cinema-header .cinema-nav-wrapper,
+        .cinema-header.on-cover .cinema-nav-wrapper,
+        .curtain-stage.closed~.cinema-header .btn-curtain-control,
+        .cinema-header.on-cover .btn-curtain-control {
+            display: none !important;
+        }
+
+        /* HÀNG TRÊN CÙNG: RÈM VALANCE NHUNG & ĐƯỜNG KẺ VÀNG SÂN KHẤU */
+        .header-top-bar {
+            pointer-events: auto;
+            background: linear-gradient(180deg, #180104 0%, #4a030e 70%, #2a0208 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-top-container {
+            max-width: 1350px;
+            margin: 0 auto;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .mini-clapper {
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-main {
+            font-family: var(--font-cinema);
+            font-weight: 900;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .brand-sub {
+            font-size: 0.68rem;
+            color: var(--gold-primary);
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* ĐƯỜNG KẺ VÀNG SÂN KHẤU NẰM DƯỚI RÈM */
+        .header-gold-line {
+            width: 100%;
+            height: 3.5px;
+            background: linear-gradient(90deg, #b45309 0%, #ffd700 25%, #f59e0b 50%, #ffd700 75%, #b45309 100%);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.7), 0 2px 8px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        .header-valance-fringe {
+            width: 100%;
+            height: 8px;
+            background-image: repeating-linear-gradient(90deg, #d97706, #ffd700 8px, #b45309 16px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            opacity: 0.85;
+            position: relative;
+        }
+
+        /* HÀNG LỘ RA NGOÀI SO VỚI ĐƯỜNG KẺ VÀNG: BORDER ĐẦU MỤC (MỤC 1, 2, 3...) */
+        .cinema-nav-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 10px 16px 6px;
+            pointer-events: none;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* KHI LƯỚT XUỐNG DƯỚI: BORDER ĐẦU MỤC TỰ ĐỘNG THU LẠI VÀ MẤT ĐI */
+        .cinema-nav-wrapper.nav-hidden {
+            transform: translateY(-38px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cinema-nav {
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 14, 22, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 6px 12px;
+            border-radius: 9999px;
+            border: 1.5px solid rgba(245, 158, 11, 0.35);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85), 0 0 20px rgba(245, 158, 11, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .nav-item {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 7px 18px;
+            border-radius: 9999px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            min-width: 72px;
+            position: relative;
+        }
+
+        .nav-num {
+            font-family: var(--font-cinema);
+            font-size: 0.62rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+            display: block;
+            line-height: 1.2;
+            transition: color 0.25s ease;
+        }
+
+        .nav-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            text-align: center;
+            display: block;
+            line-height: 1.25;
+            margin-top: 2px;
+            transition: color 0.25s ease;
+        }
+
+        .nav-item:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(245, 158, 11, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-item:hover .nav-label {
+            color: #ffffff;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(185, 28, 28, 0.95), rgba(120, 10, 25, 0.95));
+            color: #ffffff;
+            border: 1.5px solid var(--gold-primary);
+            box-shadow: 0 4px 20px rgba(185, 28, 28, 0.7), 0 0 14px rgba(245, 158, 11, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .nav-item.active .nav-num {
+            color: #ffd700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+        }
+
+        .nav-item.active .nav-label {
+            color: #ffffff;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Đèn chỉ báo vị trí trang hiện tại (lộ ra hướng lên đường kẻ vàng) */
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700, 0 0 4px #ffffff;
+            animation: goldIndicatorPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes goldIndicatorPulse {
+
+            0%,
+            100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.85;
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.4);
+                opacity: 1;
+            }
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            color: var(--gold-light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-control:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--gold-primary);
+        }
+
+        .btn-curtain-control {
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            border: 1px solid var(--gold-primary);
+            color: #ffffff;
+            font-family: var(--font-cinema);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-curtain-control:hover {
+            background: #991b1b;
+            box-shadow: 0 0 15px rgba(185, 28, 28, 0.6);
+        }
+
+        /* ==========================================================================
+           4. BỐ CỤC TRƯỢT DỌC CÁC TRANG (VERTICAL SCROLL CANVAS)
+           ========================================================================== */
+        .cinema-screen {
+            position: relative;
+            z-index: 10;
+            padding-top: 130px;
+        }
+
+        /* Từng phần/trang dọc */
+        .portfolio-section {
+            min-height: 100vh;
+            padding: 100px 24px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Tiêu đề mục chính - Thẻ phân mục bên trên dòng tiêu đề */
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section-pill-tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-cinema);
+            font-size: 0.85rem;
+            letter-spacing: 3.5px;
+            color: var(--gold-primary);
+            font-weight: 700;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid var(--border-cinema);
+            padding: 7px 22px;
+            border-radius: 9999px;
+            margin-bottom: 22px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        .section-main-heading {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-size: 2.15rem;
+            /* Giảm cỡ chữ vừa vặn, cân đối và thanh lịch */
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            margin: 0 0 22px 0;
+            line-height: 1.35;
+        }
+
+        .heading-line {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ffd700, #f59e0b, #ffd700, transparent);
+            background-size: 200% 100%;
+            margin: 0 auto;
+            border-radius: 2px;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.6);
+            animation: shimmerHeadingLine 3.5s linear infinite;
+        }
+
+        @keyframes shimmerHeadingLine {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Ambient Glow Decor */
+        .ambient-glow-1 {
+            position: fixed;
+            top: 25%;
+            left: -120px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(185, 28, 28, 0.12) 0%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: 1;
+            animation: floatAmbient 14s ease-in-out infinite alternate;
+        }
+
+        .ambient-glow-2 {
+            position: fixed;
+            bottom: 20%;
+            right: -120px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 1;
+            animation: floatAmbient 18s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes floatAmbient {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translate(40px, -30px) scale(1.15);
+                opacity: 0.85;
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        /* Scroll Reveal Transitions */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+            will-change: opacity, transform;
+        }
+
+        .reveal-item.is-revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stagger-1 {
+            transition-delay: 0.06s;
+        }
+
+        .stagger-2 {
+            transition-delay: 0.14s;
+        }
+
+        .stagger-3 {
+            transition-delay: 0.22s;
+        }
+
+        .stagger-4 {
+            transition-delay: 0.30s;
+        }
+
+        /* Card Top Shimmer Decor on Hover */
+        .node-content::after,
+        .hobby-card::after,
+        .pillar-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.7), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 18px 18px 0 0;
+        }
+
+        .node-content:hover::after,
+        .hobby-card:hover::after,
+        .pillar-card:hover::after {
+            opacity: 1;
+        }
+
+        /* ==========================================================================
+           TIÊU ĐỀ 1: GIỚI THIỆU BẢN THÂN
+           ========================================================================== */
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 56px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .film-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(185, 28, 28, 0.2);
+            border: 1px solid var(--velvet-bright);
+            color: #fca5a5;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            margin-bottom: 20px;
+        }
+
+        .rec-dot {
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            animation: blinkRec 1.2s infinite;
+        }
+
+        @keyframes blinkRec {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.2;
+            }
+        }
+
+        .title-sub {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            letter-spacing: 2.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .title-main {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-size: 3.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .hero-role {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--gold-light);
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 12px;
+            margin-bottom: 22px;
+        }
+
+        .hero-desc {
+            color: #cbd5e1;
+            font-size: 1.12rem;
+            max-width: 620px;
+            margin-bottom: 32px;
+            line-height: 1.9;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .btn-cinema-gold {
+            padding: 15px 30px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 12px;
+            color: #1a0206;
+            font-family: var(--font-cinema);
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-cinema-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 35px rgba(245, 158, 11, 0.7);
+        }
+
+        .btn-cinema-ghost {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-cinema);
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: var(--font-cinema);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-cinema-ghost:hover {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--gold-primary);
+        }
+
+        .box-office-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: var(--font-cinema);
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .stat-desc {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            margin-top: 4px;
+        }
+
+        /* KHUNG ẢNH ĐẠO DIỄN (TO RÕ & HOÀNH TRÁNG) */
+        .director-poster-frame {
+            background: #12121a;
+            border: 2px solid var(--gold-primary);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 158, 11, 0.25);
+            position: relative;
+            max-width: 460px;
+            /* Phóng to khung ảnh */
+            margin: 0 auto;
+            transform: rotate(1deg);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .director-poster-frame:hover {
+            transform: rotate(0deg) scale(1.025);
+            box-shadow: 0 30px 75px rgba(0, 0, 0, 0.98), 0 0 55px rgba(245, 158, 11, 0.4);
+        }
+
+        .film-strip-border {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 2px;
+        }
+
+        .film-strip-border span {
+            width: 16px;
+            height: 11px;
+            background: #000000;
+            border: 1px solid #444444;
+            border-radius: 2px;
+        }
+
+        .poster-inner {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 500px;
+            /* Tăng chiều cao ảnh to rõ */
+        }
+
+        .director-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            filter: contrast(1.08) brightness(0.98);
+            transition: transform 0.6s ease;
+        }
+
+        .director-poster-frame:hover .director-avatar {
+            transform: scale(1.05);
+        }
+
+        .poster-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 22px 18px;
+            background: linear-gradient(0deg, rgba(8, 8, 12, 0.96) 0%, rgba(8, 8, 12, 0) 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .badge-role {
+            font-family: var(--font-cinema);
+            font-size: 0.8rem;
+            color: var(--gold-bright);
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .badge-awards {
+            font-size: 0.88rem;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Nút cuộn xuống mục tiếp theo */
+        .scroll-next-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 48px auto 0;
+            color: var(--gold-light);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-next-btn:hover {
+            opacity: 1;
+            transform: translateY(4px);
+            color: #ffd700;
+        }
+
+        /* ==========================================================================
+           TIÊU ĐỀ 2: TRÌNH ĐỘ HỌC VẤN
+           ========================================================================== */
+        .education-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .cinema-timeline {
+            position: relative;
+            padding-left: 32px;
+            border-left: 2px solid rgba(245, 158, 11, 0.35);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .timeline-node {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .timeline-node:last-child {
+            margin-bottom: 0;
+        }
+
+        .node-icon {
+            position: absolute;
+            left: -49px;
+            top: 0;
+            width: 34px;
+            height: 34px;
+            background: #12121a;
+            border: 2px solid var(--gold-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .node-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 26px 28px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .node-content:hover {
+            border-color: var(--gold-primary);
+            transform: translateX(4px);
+            background: var(--bg-card-hover);
+        }
+
+        .node-year {
+            font-family: var(--font-cinema);
+            font-size: 0.85rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .node-title {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 6px 0;
+        }
+
+        .node-school {
+            color: var(--gold-light);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .node-desc {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .awards-column-box {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .trophy-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .trophy-item:hover {
+            border-color: var(--gold-primary);
+            transform: translateX(6px);
+            background: var(--bg-card-hover);
+        }
+
+        .trophy-badge {
+            font-family: var(--font-cinema);
+            font-size: 0.75rem;
+            font-weight: 800;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 6px 12px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .trophy-info h4 {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .trophy-info .issuer {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           TIÊU ĐỀ 3: SỞ THÍCH CÁ NHÂN
+           ========================================================================== */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .hobby-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: 32px 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .hobby-name {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-size: 1.15rem;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 14px;
+            height: 52px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.35;
+        }
+
+        .hobby-desc {
+            font-size: 0.92rem;
+            color: #cbd5e1;
+            line-height: 1.75;
+            flex: 1;
+            margin: 0;
+        }
+
+        .hobby-card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(245, 158, 11, 0.2);
+            background: var(--bg-card-hover);
+        }
+
+        .hobby-icon-circle {
+            width: 72px;
+            height: 72px;
+            background: rgba(185, 28, 28, 0.2);
+            border: 1px solid var(--velvet-bright);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(185, 28, 28, 0.3);
+        }
+
+
+
+        /* ==========================================================================
+           TIÊU ĐỀ 4: KỸ NĂNG (3 TRỤ CỘT NĂNG LỰC)
+           ========================================================================== */
+        .skills-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .pillar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            border-color: var(--velvet-bright);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(185, 28, 28, 0.25);
+            background: var(--bg-card-hover);
+        }
+
+        .pillar-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .pillar-icon-box {
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            border: 1px solid var(--gold-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(185, 28, 28, 0.35);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+        }
+
+        .pillar-card:hover .pillar-icon-box {
+            transform: scale(1.1) rotate(6deg);
+            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+        }
+
+        .pillar-header h3,
+        .pillar-header .pillar-title {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: #ffffff;
+            line-height: 1.55;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .pillar-content-group {
+            margin-bottom: 22px;
+        }
+
+        .group-title {
+            font-size: 1.01rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.2px;
+        }
+
+        .bullet-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 18px;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            line-height: 1.75;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .bullet-list li::before {
+            content: '•';
+            position: absolute;
+            left: 2px;
+            color: var(--gold-primary);
+            font-size: 1.2rem;
+        }
+
+        .tag-pill-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag-pill {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--gold-light);
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+
+        .tag-pill:hover {
+            border-color: var(--gold-primary);
+            background: rgba(245, 158, 11, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           TIÊU ĐỀ 5: CÁC CÔNG TRÌNH NCKH NỔI BẬT
+           ========================================================================== */
+        .projects-cinema-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            align-items: stretch;
+        }
+
+        .movie-poster-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+        }
+
+        .movie-poster-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -70%;
+            width: 45%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transform: rotate(25deg);
+            transition: left 0.85s ease;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .movie-poster-card:hover::before {
+            left: 140%;
+        }
+
+        .movie-poster-card:hover {
+            border-color: var(--gold-primary);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.88), 0 0 38px rgba(245, 158, 11, 0.22);
+        }
+
+        .poster-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(8, 8, 14, 0.92);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-family: var(--font-cinema);
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            padding: 5px 12px;
+            border-radius: 8px;
+            z-index: 5;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .poster-image-box {
+            position: relative;
+            height: 230px;
+            overflow: hidden;
+        }
+
+        .poster-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .movie-poster-card:hover .poster-image-box img {
+            transform: scale(1.08);
+        }
+
+        .poster-details {
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .movie-genre-tag {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-size: 0.82rem;
+            color: var(--gold-primary);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .movie-title {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            height: 3.8rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .movie-synopsis {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 18px;
+            line-height: 1.8;
+            height: 4.8rem;
+            text-align: justify;
+        }
+
+        .movie-role-box {
+            background: rgba(0, 0, 0, 0.45);
+            border-left: 3px solid var(--gold-primary);
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            margin-bottom: 18px;
+            line-height: 1.7;
+            text-align: justify;
+            min-height: 125px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .cast-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .cast-tags span {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 9999px;
+        }
+
+        /* ==========================================================================
+           FINALE: LIÊN HỆ & BẾ MẠC ĐÓNG RÈM
+           ========================================================================== */
+        .contact-cinema-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 36px;
+            margin-bottom: 48px;
+        }
+
+        .contact-info-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-cinema);
+            border-radius: 18px;
+            padding: 32px;
+        }
+
+        .cinema-box-office-sign {
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .neon-light {
+            font-family: var(--font-cinema);
+            font-size: 0.78rem;
+            color: #ef4444;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .cinema-box-office-sign h3 {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .contact-lead-text {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            margin-bottom: 28px;
+            line-height: 1.8;
+        }
+
+        .contact-details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .c-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .c-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(185, 28, 28, 0.2);
+            border: 1px solid var(--velvet-bright);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-primary);
+        }
+
+        .c-label {
+            display: block;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .c-link,
+        .c-text {
+            color: #ffffff;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.98rem;
+        }
+
+        .c-link:hover {
+            color: var(--gold-primary);
+        }
+
+        .contact-form-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 18px;
+            padding: 32px;
+        }
+
+        .form-title-wrap {
+            margin-bottom: 24px;
+        }
+
+        .form-title-wrap h3 {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-field {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field label {
+            font-size: 0.88rem;
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-field input,
+        .form-field textarea {
+            background: rgba(8, 8, 14, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 13px 16px;
+            color: #ffffff;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-submit-message {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
+            border: 1px solid var(--gold-primary);
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: var(--font-cinema);
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit-message:hover {
+            background: #dc2626;
+            box-shadow: 0 8px 25px rgba(185, 28, 28, 0.6);
+        }
+
+        .curtain-close-trigger-box {
+            background: linear-gradient(135deg, rgba(75, 2, 15, 0.65) 0%, rgba(18, 18, 28, 0.85) 100%);
+            border: 2px dashed var(--gold-primary);
+            border-radius: 18px;
+            padding: 32px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .trigger-banner h3 {
+            font-family: var(--font-heading), 'Prata', serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--gold-bright);
+            letter-spacing: 1.2px;
+        }
+
+        .trigger-banner p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .btn-trigger-close-curtain {
+            padding: 16px 38px;
+            background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+            border: 2px solid var(--gold-primary);
+            border-radius: 50px;
+            color: #ffffff;
+            font-family: var(--font-cinema);
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(185, 28, 28, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .btn-trigger-close-curtain:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(185, 28, 28, 0.9), 0 0 25px rgba(245, 158, 11, 0.6);
+        }
+
+        @media (max-width: 992px) {
+
+            .hero-layout,
+            .education-layout,
+            .skills-pillars-grid,
+            .projects-cinema-grid,
+            .contact-cinema-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .hobbies-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cinema-nav-wrapper {
+                padding: 6px 10px 4px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .cinema-nav {
+                display: flex;
+                overflow-x: auto;
+                max-width: 100%;
+                scrollbar-width: none;
+                gap: 5px;
+                padding: 4px 8px;
+            }
+
+            .cinema-nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-item {
+                min-width: 58px;
+                padding: 5px 10px;
+            }
+
+            .nav-label {
+                font-size: 0.74rem;
+            }
+
+            .portfolio-section {
+                padding: 80px 20px 60px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title-main {
+                font-size: 2.6rem;
+            }
+
+            .section-main-heading {
+                font-family: var(--font-heading), 'Prata', serif;
+                font-weight: 700;
+                font-size: 2rem;
+            }
+
+            .vip-ticket {
+                flex-direction: column;
+            }
+
+            .ticket-divider {
+                display: none;
+            }
+
+            .form-group-row {
+                grid-template-columns: 1fr;
+            }
+
+            .box-office-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="cinema-body">
+
+    <!-- HIỆU ỨNG ÁNH SÁNG NỀN ĐIỆN ẢNH (CINEMA AMBIENT GLOWS) -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- ===================================================================
+         1. MÀN CHIẾU & RÈM SÂN KHẤU (CINEMA CURTAINS & SPOTLIGHT)
+         =================================================================== -->
+    <div id="curtain-stage" class="curtain-stage closed">
+        <div class="spotlight-top"></div>
+        <div class="dust-particles" id="dust-particles"></div>
+
+        <div class="curtain-valance">
+            <div class="valance-fringe"></div>
+        </div>
+
+        <!-- Cánh rèm trái -->
+        <div class="curtain-panel curtain-left" id="curtain-left">
+            <div class="curtain-fabric">
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+            </div>
+            <div class="curtain-rope rope-left">
+                <div class="tassel"></div>
+            </div>
+        </div>
+
+        <!-- Cánh rèm phải -->
+        <div class="curtain-panel curtain-right" id="curtain-right">
+            <div class="curtain-fabric">
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+                <div class="fold"></div>
+            </div>
+            <div class="curtain-rope rope-right">
+                <div class="tassel"></div>
+            </div>
+        </div>
+
+        <!-- VÉ VIP TRƯỚC KHI MỞ MÀN -->
+        <div class="curtain-overlay-content" id="pre-show-content">
+            <div class="cinema-badge">PREMIERE NIGHT • BUỔI CÔNG CHIẾU PORTFOLIO</div>
+
+            <div class="vip-ticket">
+                <div class="ticket-left">
+                    <div class="ticket-cinema-brand">
+                        <span>★</span> FTU CINEMA SPECIAL PREMIERE <span>★</span>
+                    </div>
+                    <h1 class="ticket-movie-title">TRẦN THỊ NGỌC ÁNH</h1>
+                    <p class="ticket-tagline">Trường Đại học Ngoại Thương</p>
+                    <div class="ticket-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">CHUYÊN NGÀNH</span>
+                            <span class="meta-val">Kinh tế Quốc tế</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">MSSV</span>
+                            <span class="meta-val gold-text">2414410020</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">KHÓA</span>
+                            <span class="meta-val">2024 - 2028</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">GIỜ CHIẾU</span>
+                            <span class="meta-val" id="ticketTime">20:30 • LIVE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket-divider">
+                    <div class="notch top-notch"></div>
+                    <div class="dashed-line"></div>
+                    <div class="notch bottom-notch"></div>
+                </div>
+                <div class="ticket-right">
+                    <div class="stub-header">PORTFOLIO PASS</div>
+                    <div class="mock-qr">
+                        <i data-lucide="clapperboard" class="clapper-icon"></i>
+                    </div>
+                    <div class="seat-info">GHẾ: <strong>FTU-01</strong></div>
+                </div>
+            </div>
+
+            <button class="btn-open-curtain" id="btnOpenCurtain">
+                <span class="btn-content">
+                    <i data-lucide="play" style="width:22px;height:22px;fill:currentColor;"></i>
+                    BẮT ĐẦU CÔNG CHIẾU (MỞ RÈM)
+                </span>
+            </button>
+            <p class="curtain-hint">🎵 Nhấp để bật âm thanh rạp phim & mở màn chiếu</p>
+        </div>
+
+        <!-- MÀN HÌNH ĐẾM NGƯỢC 3-2-1 -->
+        <div class="cinema-countdown" id="cinemaCountdown">
+            <div class="countdown-circle">
+                <div class="countdown-number" id="countdownNum">3</div>
+            </div>
+            <div class="countdown-line line-h"></div>
+            <div class="countdown-line line-v"></div>
+        </div>
+
+        <!-- MÀN HÌNH BẾ MẠC / THE END & CREDITS ROLL -->
+        <div class="the-end-screen" id="theEndScreen">
+            <h1 class="the-end-text">THE END</h1>
+            <p class="end-subtext">CẢM ƠN QUÝ KHÁN GIẢ ĐÃ THEO DÕI BUỔI CÔNG CHIẾU PORTFOLIO</p>
+
+            <div class="credits-roll">
+                <div class="credit-block">
+                    <h3>CHỦ TỰA PORTFOLIO</h3>
+                    <p>Trần Thị Ngọc Ánh</p>
+                </div>
+                <div class="credit-block">
+                    <h3>CHUYÊN NGÀNH HỌC THUẬT</h3>
+                    <p>Kinh Tế Quốc Tế - Trường Đại Học Ngoại Thương Hà Nội</p>
+                </div>
+                <div class="credit-block">
+                    <h3>NGÀY THỰC HIỆN</h3>
+                    <p>4/10/2026</p>
+                </div>
+            </div>
+
+            <div class="end-actions">
+                <button class="btn-replay" id="btnReplayCurtain">
+                    <i data-lucide="rotate-ccw"></i> XEM LẠI TỪ ĐẦU (REPLAY)
+                </button>
+                <button class="btn-open-again" id="btnOpenAgain">
+                    <i data-lucide="eye"></i> MỞ LẠI MÀN CHIẾU
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===================================================================
+         2. TIA CHIẾU MÁY QUAY & KHÔNG GIAN ĐIỆN ẢNH
+         =================================================================== -->
+    <div class="projector-ambient">
+        <div class="projector-beam"></div>
+        <!-- SÂN KHẤU PHÍA DƯỚI -->
+        <div class="cinema-stage-floor">
+            <div class="stage-floor-planks"></div>
+            <div class="stage-vignette"></div>
+        </div>
+        <div class="stage-apron-edge"></div>
+        <div class="stage-footlights"></div>
+        <!-- THẢM NHŨNG SÂN KHẤU -->
+        <div class="stage-carpet-wrap">
+            <div class="stage-carpet">
+                <div class="stage-carpet-fringe"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===================================================================
+         3. THANH ĐIỀU HƯỚNG CỐ ĐỊNH & RÈM SÂN KHẤU (CINEMA HEADER)
+         =================================================================== -->
+    <header class="cinema-header on-cover" id="cinemaHeader">
+        <!-- HÀNG TRÊN CÙNG: RÈM VALANCE NHUNG & ĐƯỜNG KẺ VÀNG SÂN KHẤU -->
+        <div class="header-top-bar">
+            <div class="header-top-container">
+                <a href="#tieu-de-1" class="brand-logo" title="Về đầu trang">
+                    <div class="mini-clapper">🎬</div>
+                    <div class="brand-text">
+                        <span class="brand-main">ÁNH PORTFOLIO</span>
+                        <span class="brand-sub">FTU • ECONOMICS & DATA</span>
+                    </div>
+                </a>
+
+                <div class="header-controls">
+                    <button class="btn-control" id="soundToggle" title="Bật/Tắt âm thanh rạp phim">
+                        <i data-lucide="volume-2" id="soundIcon"></i>
+                    </button>
+                    <button class="btn-curtain-control" id="btnCloseCurtainHeader" title="Đóng rèm bế mạc">
+                        <i data-lucide="film"></i> ĐÓNG RÈM
+                    </button>
+                </div>
+            </div>
+            <!-- ĐƯỜNG KẺ VÀNG SÂN KHẤU & TUA RUA VÀNG -->
+            <div class="header-gold-line"></div>
+            <div class="header-valance-fringe"></div>
+        </div>
+
+        <!-- HÀNG LỘ RA NGOÀI SO VỚI ĐƯỜNG KẺ VÀNG: CÁC Ô TRANG ĐỂ DỄ THEO DÕI VÀ LỰA CHỌN -->
+        <div class="cinema-nav-wrapper">
+            <nav class="cinema-nav" id="cinemaNav" aria-label="Điều hướng các phân đoạn portfolio">
+                <a href="#tieu-de-1" class="nav-item active" title="Mục 01: Giới thiệu bản thân">
+                    <span class="nav-num">MỤC 01</span>
+                    <span class="nav-label">Giới thiệu</span>
+                </a>
+                <a href="#tieu-de-2" class="nav-item" title="Mục 02: Trình độ học vấn">
+                    <span class="nav-num">MỤC 02</span>
+                    <span class="nav-label">Học vấn</span>
+                </a>
+                <a href="#tieu-de-3" class="nav-item" title="Mục 03: Sở thích cá nhân">
+                    <span class="nav-num">MỤC 03</span>
+                    <span class="nav-label">Sở thích</span>
+                </a>
+                <a href="#tieu-de-4" class="nav-item" title="Mục 04: Kỹ năng cá nhân">
+                    <span class="nav-num">MỤC 04</span>
+                    <span class="nav-label">Kỹ năng</span>
+                </a>
+                <a href="#tieu-de-5" class="nav-item" title="Mục 05: Các công trình NCKH">
+                    <span class="nav-num">MỤC 05</span>
+                    <span class="nav-label">NCKH</span>
+                </a>
+                <a href="#finale-contact" class="nav-item" title="Finale: Liên hệ & Hợp tác">
+                    <span class="nav-num">FINALE</span>
+                    <span class="nav-label">Liên hệ</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- ===================================================================
+         4. NỘI DUNG CHÍNH (HIỆU ỨNG TRƯỢT DỌC LƯỢT XEM TỪNG TRANG)
+         =================================================================== -->
+    <main class="cinema-screen">
+
+        <!-- ===============================================================
+             TIÊU ĐỀ 1: GIỚI THIỆU BẢN THÂN
+             =============================================================== -->
+        <section id="tieu-de-1" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">MỤC 01 // HỒ SƠ & GIỚI THIỆU</div>
+                    <h2 class="section-main-heading gold-gradient">Giới Thiệu Bản Thân</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="hero-layout">
+                    <div class="hero-text-col reveal-item stagger-1">
+                        <div class="film-tag">
+                            <span class="rec-dot"></span> FTU • ECONOMIST & RESEARCHER
+                        </div>
+                        <h1 class="hero-title">
+                            <span class="title-sub">HI, I'M</span>
+                            <span class="title-main gold-gradient">ÁNH</span>
+                        </h1>
+                        <h2 class="hero-role">
+                            Sinh viên chuyên ngành Kinh tế Quốc tế • Trường Đại học Ngoại Thương Hà Nội
+                        </h2>
+                        <p class="hero-desc">
+                            Trong quá trình học tập, tôi rất đam mê bộ môn Kinh tế lượng, nghiên cứu khoa học và ứng
+                            dụng các công cụ phân tích dữ liệu để giải quyết các bài toán kinh tế - xã hội.
+                        </p>
+
+                        <div class="hero-cta-group">
+                            <a href="#tieu-de-5" class="btn-cinema-gold">
+                                <i data-lucide="award"></i> XEM CÔNG TRÌNH NCKH
+                            </a>
+                            <a href="#finale-contact" class="btn-cinema-ghost">
+                                <i data-lucide="mail"></i> LIÊN HỆ TRỰC TIẾP
+                            </a>
+                        </div>
+
+                        <div class="box-office-stats">
+                            <div class="stat-card">
+                                <div class="stat-num gold-text">FTU</div>
+                                <div class="stat-desc">ĐẠI HỌC NGOẠI THƯƠNG</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num gold-text">2+</div>
+                                <div class="stat-desc">TIẾNG ANH & TIẾNG PHÁP</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num gold-text">3.80</div>
+                                <div class="stat-desc">GPA / 4.0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ẢNH CÁ NHÂN & KHUNG PHIM -->
+                    <div class="hero-visual-col reveal-item stagger-2">
+                        <div class="director-poster-frame">
+                            <div class="film-strip-border top-strip">
+                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                            <div class="poster-inner">
+                                <img src="avatar.jpg" alt="Hình ảnh cá nhân Trần Thị Ngọc Ánh" class="director-avatar">
+                                <div class="poster-overlay">
+                                    <span class="badge-role">RESEARCHER & ECONOMIST</span>
+                                    <div class="badge-awards">🏛️ Sinh viên Kinh Tế Quốc Tế FTU</div>
+                                </div>
+                            </div>
+                            <div class="film-strip-border bottom-strip">
+                                <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#tieu-de-2" class="scroll-next-btn">
+                    <span>LƯỚT XUỐNG XEM TRÌNH ĐỘ HỌC VẤN</span>
+                    <i data-lucide="chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- ===============================================================
+             TIÊU ĐỀ 2: TRÌNH ĐỘ HỌC VẤN
+             =============================================================== -->
+        <section id="tieu-de-2" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">MỤC 02 // HÀNH TRÌNH HỌC TẬP</div>
+                    <h2 class="section-main-heading gold-gradient">Trình Độ Học Vấn</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="education-layout">
+                    <!-- TIMELINE HỌC VẤN -->
+                    <div class="cinema-timeline">
+                        <div class="timeline-node reveal-item stagger-1">
+                            <div class="node-icon">🏛️</div>
+                            <div class="node-content">
+                                <span class="node-year">2024 - Hiện Tại</span>
+                                <h3 class="node-title">Trường Đại Học Ngoại Thương, Hà Nội</h3>
+                                <p class="node-school">Chuyên ngành: Kinh Tế Quốc Tế</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-node reveal-item stagger-2">
+                            <div class="node-icon">🎓</div>
+                            <div class="node-content">
+                                <span class="node-year">2021 - 2024</span>
+                                <h3 class="node-title">Trường THPT Chuyên Lê Hồng Phong, Tỉnh Ninh Bình</h3>
+                                <p class="node-school">Cựu Học Sinh Chuyên Tiếng Pháp</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BẰNG CẤP & THÀNH TÍCH ĐẠT ĐƯỢC -->
+                    <div class="awards-column-box">
+                        <div class="trophy-item reveal-item stagger-1">
+                            <div class="trophy-badge">🏆 NCKH</div>
+                            <div class="trophy-info">
+                                <h4>Giải Thưởng Nghiên Cứu Khoa Học Sinh Viên</h4>
+                                <p class="issuer">Đề tài: Đổi Mới Sáng Tạo & Dấu Chân Sinh Thái</p>
+                            </div>
+                        </div>
+
+                        <div class="trophy-item reveal-item stagger-2">
+                            <div class="trophy-badge">⭐ NCKH</div>
+                            <div class="trophy-info">
+                                <h4>Các Báo Cáo Nghiên Cứu Vĩ Mô</h4>
+                                <p class="issuer">Đề tài nhiều lĩnh vực khác nhau</p>
+                            </div>
+                        </div>
+
+                        <div class="trophy-item reveal-item stagger-3">
+                            <div class="trophy-badge">🌐 ENGLISH</div>
+                            <div class="trophy-info">
+                                <h4>Academic English & Journal Translation</h4>
+                                <p class="issuer">Dịch thuật & Trình bày Báo cáo Khoa học Quốc tế</p>
+                            </div>
+                        </div>
+
+                        <div class="trophy-item reveal-item stagger-4">
+                            <div class="trophy-badge">🇫🇷 FRENCH</div>
+                            <div class="trophy-info">
+                                <h4>Business French (Tiếng Pháp Thương Mại)</h4>
+                                <p class="issuer">Đọc hiểu & Giao tiếp thương mại chuyên ngành</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#tieu-de-3" class="scroll-next-btn">
+                    <span>LƯỚT XUỐNG XEM SỞ THÍCH CÁ NHÂN</span>
+                    <i data-lucide="chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- ===============================================================
+             TIÊU ĐỀ 3: SỞ THÍCH CÁ NHÂN
+             =============================================================== -->
+        <section id="tieu-de-3" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">MỤC 03 // LIFESTYLE & ĐAM MÊ</div>
+                    <h2 class="section-main-heading gold-gradient">Sở Thích Cá Nhân</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="hobbies-grid">
+                    <div class="hobby-card reveal-item stagger-1">
+                        <div class="hobby-icon-circle">🎾</div>
+                        <h3 class="hobby-name">Chơi Thể Thao</h3>
+                        <p class="hobby-desc">
+                            Giúp rèn luyện thể lực, tái tạo năng lượng và duy trì tính kỷ luật, sự bền bỉ trong học tập
+                            và cuộc sống.
+                        </p>
+                    </div>
+
+                    <div class="hobby-card reveal-item stagger-2">
+                        <div class="hobby-icon-circle">🍲</div>
+                        <h3 class="hobby-name">Ăn Những Món Ngon</h3>
+                        <p class="hobby-desc">
+                            Yêu thích trải nghiệm ẩm thực đa dạng, thưởng thức những món ăn ngon và tìm hiểu bản sắc văn
+                            hóa qua từng hương vị truyền thống.
+                        </p>
+                    </div>
+
+                    <div class="hobby-card reveal-item stagger-3">
+                        <div class="hobby-icon-circle">🌿</div>
+                        <h3 class="hobby-name">Du Lịch & Khám Phá Thiên Nhiên</h3>
+                        <p class="hobby-desc">
+                            Thích đi du lịch, được đắm mình vào vẻ đẹp hùng vĩ của thiên nhiên, mở rộng thế giới quan và
+                            khơi nguồn cảm hứng sáng tạo.
+                        </p>
+                    </div>
+
+                    <div class="hobby-card reveal-item stagger-4">
+                        <div class="hobby-icon-circle">💡</div>
+                        <h3 class="hobby-name">Học Những Điều Mới Mẻ</h3>
+                        <p class="hobby-desc">
+                            Luôn tò mò và chủ động đón nhận kiến thức mới, công cụ công nghệ mới để không ngừng hoàn
+                            thiện bản thân mỗi ngày.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="#tieu-de-4" class="scroll-next-btn">
+                    <span>LƯỚT XUỐNG XEM KỸ NĂNG CÁ NHÂN</span>
+                    <i data-lucide="chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- ===============================================================
+             TIÊU ĐỀ 4: KỸ NĂNG CÁ NHÂN (3 TRỤ CỘT)
+             =============================================================== -->
+        <section id="tieu-de-4" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">MỤC 04 // 3 TRỤ CỘT NĂNG LỰC</div>
+                    <h2 class="section-main-heading gold-gradient">Kỹ Năng Cá Nhân</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="skills-pillars-grid">
+
+                    <!-- TRỤ CỘT 1 -->
+                    <div class="pillar-card reveal-item stagger-1">
+                        <div class="pillar-header">
+                            <div class="pillar-icon-box"><i data-lucide="book-open"></i></div>
+                            <h3 class="pillar-title">TRỤ CỘT 1: NỀN TẢNG HỌC THUẬT</h3>
+                        </div>
+
+                        <div class="pillar-content-group">
+                            <div class="group-title">📈 Tư duy Kinh tế học & Mô hình hóa:</div>
+                            <ul class="bullet-list">
+                                <li>Hiểu biết sâu sắc về các lý thuyết Kinh tế học.</li>
+                                <li>Khả năng đặt câu hỏi nghiên cứu, xây dựng khung lý thuyết và giả thuyết kiểm định.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar-content-group">
+                            <div class="group-title">🔬 Kinh tế lượng Nâng cao (Applied Econometrics):</div>
+                            <ul class="bullet-list">
+                                <li>Thành thạo xử lý dữ liệu bảng (Panel Data) chuyên sâu: Fixed Effects, Random
+                                    Effects, System GMM.</li>
+                                <li>Kiểm định & khắc phục khuyết tật mô hình.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar-content-group" style="margin-top:auto;">
+                            <div class="group-title">💻 Công cụ Phân tích Dữ liệu:</div>
+                            <div class="tag-pill-cloud">
+                                <span class="tag-pill">Stata (Xử lý & Ước lượng)</span>
+                                <span class="tag-pill">Python (Tự động hóa & Ma trận)</span>
+                                <span class="tag-pill">Trình bày Học thuật Quốc tế</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TRỤ CỘT 2 -->
+                    <div class="pillar-card reveal-item stagger-2">
+                        <div class="pillar-header">
+                            <div class="pillar-icon-box"><i data-lucide="briefcase"></i></div>
+                            <h3 class="pillar-title">TRỤ CỘT 2: KỸ NĂNG THỰC THI</h3>
+                        </div>
+
+                        <div class="pillar-content-group">
+                            <div class="group-title">🎯 Quản lý Dự án & Tổ chức Công việc:</div>
+                            <ul class="bullet-list">
+                                <li>Lập kế hoạch, phân chia tiến độ và phối hợp làm việc nhóm hiệu quả trong các dự án
+                                    học thuật và hoạt động sinh viên.</li>
+                                <li>Kinh nghiệm làm việc trong môi trường quản lý khoa học / nghiên cứu (đón nhận quy
+                                    trình chuẩn chỉnh, tính cam kết cao).</li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar-content-group">
+                            <div class="group-title">🌐 Giao tiếp & Ngoại ngữ Chuyên ngành:</div>
+                            <ul class="bullet-list">
+                                <li><strong>Academic English (IELTS / Journal Translation):</strong> Viết báo cáo khoa
+                                    học bằng tiếng Anh và dịch thuật tài liệu chuyên ngành.</li>
+                                <li><strong>Business French:</strong> Hiểu biết về tiếng Pháp thương mại.</li>
+                            </ul>
+                        </div>
+
+                        <div class="tag-pill-cloud" style="margin-top:auto;">
+                            <span class="tag-pill">Project Coordination</span>
+                            <span class="tag-pill">Scientific Writing</span>
+                            <span class="tag-pill">Leadership</span>
+                        </div>
+                    </div>
+
+                    <!-- TRỤ CỘT 3 -->
+                    <div class="pillar-card reveal-item stagger-3">
+                        <div class="pillar-header">
+                            <div class="pillar-icon-box"><i data-lucide="brain-circuit"></i></div>
+                            <h3 class="pillar-title">TRỤ CỘT 3: TƯ DUY & ĐIỂM MẠNH</h3>
+                        </div>
+
+                        <div class="pillar-content-group">
+                            <div class="group-title">🧠 Điểm mạnh & Tư duy làm việc:</div>
+                            <ul class="bullet-list">
+                                <li><strong>Khả năng Tự học & Nghiên cứu Độc lập:</strong> Chủ động tiếp cận các kiến
+                                    thức mới, đọc tài liệu chuyên ngành nước ngoài và nâng cao kiến thức.</li>
+                                <li><strong>Tính cẩn thận và cầu toàn:</strong> Tỉ mỉ, chỉn chu trong từng số liệu và
+                                    quy trình làm việc.</li>
+                                <li><strong>Tư duy giải quyết vấn đề:</strong> Chia nhỏ vấn đề phức tạp để tìm nguyên
+                                    nhân gốc rễ và cách giải quyết phù hợp nhất.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pillar-content-group" style="margin-top:auto;">
+                            <div class="group-title">⭐ Phẩm chất cốt lõi:</div>
+                            <div class="tag-pill-cloud">
+                                <span class="tag-pill">Problem Solving</span>
+                                <span class="tag-pill">Detail-Oriented</span>
+                                <span class="tag-pill">Self-Learner</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a href="#tieu-de-5" class="scroll-next-btn">
+                    <span>LƯỚT XUỐNG XEM CÔNG TRÌNH NCKH NỔI BẬT</span>
+                    <i data-lucide="chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- ===============================================================
+             TIÊU ĐỀ 5: CÁC CÔNG TRÌNH NCKH NỔI BẬT
+             =============================================================== -->
+        <section id="tieu-de-5" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">MỤC 05 // THÀNH TỰU NGHIÊN CỨU</div>
+                    <h2 class="section-main-heading gold-gradient">Các Công Trình NCKH Nổi Bật</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="projects-cinema-grid">
+
+                    <!-- CÔNG TRÌNH 1: ĐỔI MỚI SÁNG TẠO -->
+                    <div class="movie-poster-card reveal-item stagger-1">
+                        <div class="poster-badge">DỰ THI CẤP KHOA ⭐</div>
+                        <div class="poster-image-box">
+                            <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=800&auto=format&fit=crop&q=80"
+                                alt="Đổi mới sáng tạo và dấu chân sinh thái">
+                        </div>
+                        <div class="poster-details">
+                            <div class="movie-genre-tag">PHƯƠNG PHÁP NGHIÊN CỨU ĐỊNH LƯỢNG</div>
+                            <h3 class="movie-title">Đổi Mới Sáng Tạo và Dấu Chân Sinh Thái</h3>
+                            <p class="movie-synopsis">
+                                Phân tích định lượng tác động của năng lực đổi mới sáng tạo đến dấu chân sinh thái và
+                                mức độ suy thoái môi trường ở các nhóm quốc gia.
+                            </p>
+                            <div class="movie-role-box">
+                                <div><strong>Vai trò trong nhóm:</strong> Làm việc với phần mô hình, diễn giải ý nghĩa
+                                    kinh tế và thảo luận về kết quả nghiên cứu.</div>
+                                <div style="margin-top: 8px;"><strong>Kết quả:</strong> Hoàn thành bài NCKH dự thi cấp
+                                    khoa.</div>
+                            </div>
+                            <div class="cast-tags">
+                                <span>🏆 Dự Thi Cấp Khoa</span>
+                                <span>Mô Hình Kinh Tế Lượng</span>
+                                <span>Panel Data</span>
+                                <span>Stata</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CÔNG TRÌNH 2: CHUYỂN DỊCH NĂNG LƯỢNG -->
+                    <div class="movie-poster-card reveal-item stagger-2">
+                        <div class="poster-badge">KỶ YẾU HỘI THẢO KHOA HỌC 🌟</div>
+                        <div class="poster-image-box">
+                            <img src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&auto=format&fit=crop&q=80"
+                                alt="Chuyển dịch năng lượng và hàm ý chính sách">
+                        </div>
+                        <div class="poster-details">
+                            <div class="movie-genre-tag">PHƯƠNG PHÁP NGHIÊN CỨU ĐỊNH TÍNH</div>
+                            <h3 class="movie-title">Chuyển Dịch Năng Lượng và Hàm Ý Chính Sách cho Việt Nam</h3>
+                            <p class="movie-synopsis">
+                                Kinh nghiệm chuyển dịch năng lượng trong các ngành sử dụng năng lượng của Đức và hàm ý
+                                chính sách cho Việt Nam.
+                            </p>
+                            <div class="movie-role-box">
+                                <div><strong>Kết quả:</strong> Bài báo được đăng trong Kỷ yếu của Hội Thảo Khoa Học về
+                                    "Mô hình Kinh doanh "Dịch vụ Năng lượng" trong ngành năng lượng Việt Nam trong bối
+                                    cảnh đạt mục tiêu NetZero năm 2050".</div>
+                            </div>
+                            <div class="cast-tags">
+                                <span>🌟 Đăng Kỷ Yếu Hội Thảo Khoa Học</span>
+                                <span>Phân Tích Định Tính</span>
+                                <span>Chính Sách Năng Lượng</span>
+                                <span>Chuyển Dịch Xanh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <a href="#finale-contact" class="scroll-next-btn">
+                    <span>LƯỚT XUỐNG XEM THÔNG TIN LIÊN HỆ & BẾ MẠC</span>
+                    <i data-lucide="chevron-down"></i>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- ===============================================================
+             FINALE: LIÊN HỆ & ĐÓNG RÈM BẾ MẠC
+             =============================================================== -->
+        <section id="finale-contact" class="portfolio-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <div class="section-pill-tag">FINALE // KẾT NỐI HỢP TÁC</div>
+                    <h2 class="section-main-heading gold-gradient">Liên Hệ & Trao Đổi (Contact)</h2>
+                    <div class="heading-line"></div>
+                </div>
+
+                <div class="contact-cinema-layout">
+                    <!-- HỘP THÔNG TIN TRỰC TIẾP -->
+                    <div class="contact-info-panel reveal-item stagger-1">
+                        <div class="cinema-box-office-sign">
+                            <span class="neon-light">BOX OFFICE</span>
+                            <h3>THÔNG TIN LIÊN HỆ TRỰC TIẾP</h3>
+                        </div>
+                        <p class="contact-lead-text">
+                            Tôi luôn sẵn sàng trao đổi về các cơ hội hợp tác nghiên cứu học thuật, dự án phân tích dữ
+                            liệu kinh tế và các hoạt động học thuật sinh viên.
+                        </p>
+
+                        <div class="contact-details-list">
+                            <div class="c-detail-item">
+                                <div class="c-icon"><i data-lucide="phone"></i></div>
+                                <div>
+                                    <span class="c-label">Số Điện Thoại (SĐT)</span>
+                                    <a href="tel:0326782088" class="c-link">0326782088</a>
+                                </div>
+                            </div>
+                            <div class="c-detail-item">
+                                <div class="c-icon"><i data-lucide="mail"></i></div>
+                                <div>
+                                    <span class="c-label">Hòm Thư Điện Tử (Mail)</span>
+                                    <a href="mailto:ttna06nd@gmail.com" class="c-link">ttna06nd@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="c-detail-item">
+                                <div class="c-icon"><i data-lucide="map-pin"></i></div>
+                                <div>
+                                    <span class="c-label">Địa Điểm</span>
+                                    <span class="c-text">Trường ĐH Ngoại Thương Hà Nội / Ninh Bình</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORM GỬI TIN NHẮN -->
+                    <div class="contact-form-panel reveal-item stagger-2">
+                        <form id="contactForm">
+                            <div class="form-title-wrap">
+                                <h3><i data-lucide="send"></i> Gửi Tin Nhắn Trao Đổi</h3>
+                            </div>
+
+                            <div class="form-group-row">
+                                <div class="form-field">
+                                    <label for="nameInput">Họ và Tên của bạn *</label>
+                                    <input type="text" id="nameInput" required placeholder="Nhập tên của bạn...">
+                                </div>
+                                <div class="form-field">
+                                    <label for="emailInput">Email liên hệ *</label>
+                                    <input type="email" id="emailInput" required placeholder="name@domain.com">
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="msgInput">Nội dung trao đổi *</label>
+                                <textarea id="msgInput" rows="4" required
+                                    placeholder="Nội dung bạn muốn trao đổi hoặc hợp tác..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-submit-message">
+                                <i data-lucide="film"></i> GỬI TIN NHẮN TỚI ÁNH
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- NÚT BẾ MẠC / ĐÓNG RÈM SÂN KHẤU -->
+                <div class="curtain-close-trigger-box">
+                    <div class="trigger-banner">
+                        <h3>🎬 ĐÃ HOÀN TẤT CHUYẾN THAM QUAN PORTFOLIO?</h3>
+                        <p>Nhấp vào nút bên dưới để đóng màn rèm bế mạc và xem phần danh đề (Credits Roll).</p>
+                    </div>
+                    <button class="btn-trigger-close-curtain" id="btnTriggerCloseCurtain">
+                        <i data-lucide="clapperboard"></i> ĐÓNG RÈM BẾ MẠC (THE END)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ===================================================================
+         5. JAVASCRIPT ĐIỀU KHIỂN & CUỘN TRƯỢT DỌC
+         =================================================================== -->
+    <script>
+        // 1. Web Audio API - Âm thanh rạp phim tự tạo (Synthesized Cinema Audio Engine)
+        class CinemaSoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+            }
+            init() {
+                try {
+                    if (!this.ctx) {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        this.ctx = new AudioCtx();
+                    }
+                    if (this.ctx && this.ctx.state === 'suspended') {
+                        this.ctx.resume();
+                    }
+                } catch (e) {
+                    console.warn("AudioContext init:", e);
+                }
+            }
+            // Tiếng chuông rạp phim / Chime ngân vang sang trọng
+            playChime() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const freqs = [261.63, 329.63, 392.00, 523.25, 659.25];
+                freqs.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    gain.gain.setValueAtTime(0.0001, now + idx * 0.1);
+                    gain.gain.linearRampToValueAtTime(0.25, now + idx * 0.1 + 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.1 + 2.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.1);
+                    osc.stop(now + idx * 0.1 + 2.3);
+                });
+            }
+            // Tiếng click phim máy quay / Projector tick đếm ngược
+            playClick() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+
+                // Vintage Projector Click + Beep
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(440, now + 0.12);
+                gain.gain.setValueAtTime(0.28, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.13);
+
+                // Mechanical click transient
+                const osc2 = this.ctx.createOscillator();
+                const gain2 = this.ctx.createGain();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(160, now);
+                osc2.frequency.exponentialRampToValueAtTime(40, now + 0.06);
+                gain2.gain.setValueAtTime(0.25, now);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                osc2.connect(gain2);
+                gain2.connect(this.ctx.destination);
+                osc2.start(now);
+                osc2.stop(now + 0.07);
+            }
+            // Tiếng kéo rèm mở / đóng (Theatrical Curtain Glide & Whoosh Sweep)
+            playWhoosh() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                const now = this.ctx.currentTime;
+                const duration = 2.4;
+                const bufferSize = Math.floor(this.ctx.sampleRate * duration);
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                // Fabric noise sweep
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.Q.setValueAtTime(1.2, now);
+                filter.frequency.setValueAtTime(250, now);
+                filter.frequency.linearRampToValueAtTime(750, now + 0.9);
+                filter.frequency.linearRampToValueAtTime(180, now + duration);
+
+                const gain = this.ctx.createGain();
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.35, now + 0.6);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+                noise.connect(filter);
+                filter.connect(gain);
+                gain.connect(this.ctx.destination);
+                noise.start(now);
+                noise.stop(now + duration);
+
+                // Deep velvet rumble
+                const osc = this.ctx.createOscillator();
+                const gainOsc = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(65, now);
+                osc.frequency.linearRampToValueAtTime(95, now + 0.8);
+                osc.frequency.linearRampToValueAtTime(50, now + duration);
+                gainOsc.gain.setValueAtTime(0.001, now);
+                gainOsc.gain.linearRampToValueAtTime(0.22, now + 0.5);
+                gainOsc.gain.exponentialRampToValueAtTime(0.001, now + duration);
+                osc.connect(gainOsc);
+                gainOsc.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + duration);
+            }
+            toggle() {
+                this.enabled = !this.enabled;
+                return this.enabled;
+            }
+        }
+        const cinemaSound = new CinemaSoundEngine();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const curtainStage = document.getElementById('curtain-stage');
+            const btnOpenCurtain = document.getElementById('btnOpenCurtain');
+            const preShowContent = document.getElementById('pre-show-content');
+            const cinemaCountdown = document.getElementById('cinemaCountdown');
+            const countdownNum = document.getElementById('countdownNum');
+            const countdownCircle = document.querySelector('.countdown-circle');
+            const cinemaHeader = document.getElementById('cinemaHeader');
+            const navWrapper = document.querySelector('.cinema-nav-wrapper');
+            const theEndScreen = document.getElementById('theEndScreen');
+            const btnTriggerCloseCurtain = document.getElementById('btnTriggerCloseCurtain');
+            const btnCloseCurtainHeader = document.getElementById('btnCloseCurtainHeader');
+            const btnReplayCurtain = document.getElementById('btnReplayCurtain');
+            const btnOpenAgain = document.getElementById('btnOpenAgain');
+            const soundToggle = document.getElementById('soundToggle');
+
+            // Tự động mở khóa Web Audio API trên lần tương tác đầu tiên của người dùng
+            ['click', 'touchstart', 'keydown'].forEach(evt => {
+                document.addEventListener(evt, () => cinemaSound.init(), { once: true });
+            });
+
+            // Cập nhật giờ chiếu
+            const ticketTime = document.getElementById('ticketTime');
+            if (ticketTime) {
+                const now = new Date();
+                ticketTime.innerText = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} • LIVE`;
+            }
+
+            // MỞ RÈM BẮT ĐẦU (ĐẾM NGƯỢC 3-2-1: TỐC ĐỘ ĐẾM 3->2->1 NHANH HƠN, GIỮ NGUYÊN TỐC ĐỘ XOAY 750MS)
+            const COUNTDOWN_INTERVAL = 600; // 600ms chuyển số (3 -> 2 -> 1 nhanh gọn, dứt khoát)
+            const ROTATION_DURATION = 750;  // 750ms cho 1 vòng quay 360 độ (giữ nguyên tốc độ xoay 1 vòng)
+
+            function tickCountdown(val) {
+                countdownNum.innerText = val;
+                // Khởi động lại vòng xoay: mỗi số quay 1 đến 2 vòng chậm rãi và mượt mà
+                if (countdownCircle) {
+                    countdownCircle.style.animation = 'none';
+                    void countdownCircle.offsetWidth;
+                    countdownCircle.style.animation = `rotateCrosshair ${ROTATION_DURATION}ms linear infinite`;
+                }
+                countdownNum.classList.remove('pop-anim');
+                void countdownNum.offsetWidth;
+                countdownNum.classList.add('pop-anim');
+                cinemaSound.playClick();
+            }
+
+            btnOpenCurtain.addEventListener('click', () => {
+                cinemaSound.init();
+                cinemaSound.playChime();
+                preShowContent.style.opacity = '0';
+                preShowContent.style.pointerEvents = 'none';
+
+                cinemaCountdown.style.display = 'flex';
+                let count = 3;
+                tickCountdown(count);
+
+                const timer = setInterval(() => {
+                    count--;
+                    if (count > 0) {
+                        tickCountdown(count);
+                    } else {
+                        clearInterval(timer);
+                        cinemaCountdown.style.display = 'none';
+                        cinemaSound.playWhoosh();
+                        curtainStage.classList.remove('closed');
+                        curtainStage.classList.add('open');
+                        if (cinemaHeader) cinemaHeader.classList.remove('on-cover');
+                    }
+                }, COUNTDOWN_INTERVAL);
+            });
+
+            // ĐÓNG RÈM BẾ MẠC (THE END)
+            function closeCurtains() {
+                cinemaSound.init();
+                cinemaSound.playWhoosh();
+                curtainStage.classList.remove('open');
+                curtainStage.classList.add('closed');
+                if (cinemaHeader) cinemaHeader.classList.add('on-cover');
+                preShowContent.style.display = 'none';
+                theEndScreen.classList.add('show');
+                setTimeout(() => cinemaSound.playChime(), 1000);
+            }
+            if (btnTriggerCloseCurtain) btnTriggerCloseCurtain.addEventListener('click', closeCurtains);
+            if (btnCloseCurtainHeader) btnCloseCurtainHeader.addEventListener('click', closeCurtains);
+
+            // XEM LẠI (REPLAY)
+            btnReplayCurtain.addEventListener('click', () => {
+                theEndScreen.classList.remove('show');
+                if (cinemaHeader) cinemaHeader.classList.add('on-cover');
+                preShowContent.style.display = 'flex';
+                preShowContent.style.opacity = '1';
+                preShowContent.style.pointerEvents = 'all';
+                cinemaSound.playChime();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            btnOpenAgain.addEventListener('click', () => {
+                theEndScreen.classList.remove('show');
+                cinemaSound.playWhoosh();
+                curtainStage.classList.remove('closed');
+                curtainStage.classList.add('open');
+                if (cinemaHeader) cinemaHeader.classList.remove('on-cover');
+            });
+
+            // BẬT / TẮT ÂM THANH
+            soundToggle.addEventListener('click', () => {
+                const on = cinemaSound.toggle();
+                soundToggle.innerHTML = on ? '<i data-lucide="volume-2"></i>' : '<i data-lucide="volume-x"></i>';
+                lucide.createIcons();
+            });
+
+            // LẮNG NGHE CUỘN DỌC TRANG: CẬP NHẬT MENU ACTIVE VÀ THU PHÓNG BORDER ĐẦU MỤC
+            const sections = document.querySelectorAll('.portfolio-section');
+            const navLinks = document.querySelectorAll('.cinema-nav .nav-item');
+            let lastScrollTop = 0;
+            let isNavClickScrolling = false;
+
+            function handleNavScroll() {
+                if (curtainStage.classList.contains('closed')) return;
+
+                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Cập nhật mục active theo vị trí hiện tại
+                let current = '';
+                sections.forEach(sec => {
+                    const top = sec.offsetTop - 145;
+                    if (currentScroll >= top) {
+                        current = sec.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+                });
+
+                // Nếu đang trong quá trình cuộn tự động khi bấm nút menu thì không ẩn
+                if (isNavClickScrolling) {
+                    lastScrollTop = currentScroll;
+                    return;
+                }
+
+                // Luôn hiện khi ở gần đầu trang (< 60px)
+                if (currentScroll < 60) {
+                    if (navWrapper) navWrapper.classList.remove('nav-hidden');
+                } else if (currentScroll > lastScrollTop && (currentScroll - lastScrollTop > 8)) {
+                    // Lướt xuống dưới -> Mất đi
+                    if (navWrapper) navWrapper.classList.add('nav-hidden');
+                } else if (currentScroll < lastScrollTop && (lastScrollTop - currentScroll > 8)) {
+                    // Cuộn lên trên -> Xuất hiện
+                    if (navWrapper) navWrapper.classList.remove('nav-hidden');
+                }
+
+                lastScrollTop = Math.max(0, currentScroll);
+            }
+
+            window.addEventListener('scroll', handleNavScroll, { passive: true });
+
+            // Rê chuột vào thanh header trên cùng cũng giúp lộ ra border đầu mục nếu đang bị ẩn
+            const headerTopBar = document.querySelector('.header-top-bar');
+            if (headerTopBar && navWrapper) {
+                headerTopBar.addEventListener('mouseenter', () => {
+                    if (!curtainStage.classList.contains('closed')) {
+                        navWrapper.classList.remove('nav-hidden');
+                    }
+                });
+            }
+
+            // NGƯỜI ĐỌC CÓ THỂ LỰA CHỌN XEM PHẦN NÀO: NHẤP ĐỂ ĐẾN THẲNG TRANG ĐÓ
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    cinemaSound.playClick();
+                    const targetId = link.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+
+                    // Nếu màn hình The End đang mở, tắt đi
+                    if (theEndScreen.classList.contains('show')) {
+                        theEndScreen.classList.remove('show');
+                    }
+
+                    // Nếu rèm đang đóng, mở rèm ngay lập tức để người đọc vào xem mục đã chọn
+                    if (curtainStage.classList.contains('closed')) {
+                        preShowContent.style.opacity = '0';
+                        preShowContent.style.pointerEvents = 'none';
+                        curtainStage.classList.remove('closed');
+                        curtainStage.classList.add('open');
+                        if (cinemaHeader) cinemaHeader.classList.remove('on-cover');
+                        cinemaSound.playWhoosh();
+                    }
+
+                    // Giữ border đầu mục luôn hiển thị khi click
+                    isNavClickScrolling = true;
+                    if (navWrapper) navWrapper.classList.remove('nav-hidden');
+
+                    // Cuộn mượt đến phần nội dung được chọn
+                    if (targetEl) {
+                        const headerOffset = 135;
+                        const elementPosition = targetEl.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+
+                        // Cập nhật tab active ngay lập tức
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+
+                    setTimeout(() => {
+                        isNavClickScrolling = false;
+                        lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    }, 800);
+                });
+            });
+
+            // Click vào Brand Logo để cuộn về đầu trang
+            const brandLogo = document.querySelector('.brand-logo');
+            if (brandLogo) {
+                brandLogo.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    cinemaSound.playClick();
+                    if (curtainStage.classList.contains('closed')) {
+                        preShowContent.style.opacity = '0';
+                        preShowContent.style.pointerEvents = 'none';
+                        curtainStage.classList.remove('closed');
+                        curtainStage.classList.add('open');
+                        if (cinemaHeader) cinemaHeader.classList.remove('on-cover');
+                        cinemaSound.playWhoosh();
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Form Submit
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    cinemaSound.playChime();
+                    const name = document.getElementById('nameInput').value;
+                    alert(`🎉 Cảm ơn ${name}! Tin nhắn đã được chuyển tới Ánh. Tôi sẽ phản hồi qua email sớm nhất!`);
+                    contactForm.reset();
+                });
+            }
+
+            // Hạt bụi chiếu sáng
+            const canvas = document.createElement('canvas');
+            document.getElementById('dust-particles').appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            resize();
+            window.addEventListener('resize', resize);
+            const particles = Array.from({ length: 32 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2 + 0.5,
+                speedY: Math.random() * 0.4 + 0.1,
+                speedX: (Math.random() - 0.5) * 0.3,
+                opacity: Math.random() * 0.5 + 0.1
+            }));
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#fef08a';
+                particles.forEach(p => {
+                    p.y += p.speedY; p.x += p.speedX;
+                    if (p.y > canvas.height) p.y = 0;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.x < 0) p.x = canvas.width;
+                    ctx.globalAlpha = p.opacity;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Hiệu ứng cuộn hiển thị mượt mà (Scroll Reveal Animation)
+            const revealItems = document.querySelectorAll('.reveal-item');
+            if ('IntersectionObserver' in window) {
+                const revealObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-revealed');
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -40px 0px'
+                });
+                revealItems.forEach(item => revealObserver.observe(item));
+            } else {
+                revealItems.forEach(item => item.classList.add('is-revealed'));
+            }
+
+            // Khởi tạo icon
+            lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>
